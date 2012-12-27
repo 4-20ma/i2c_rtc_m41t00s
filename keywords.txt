@@ -1,0 +1,50 @@
+#######################################
+# Syntax Coloring Map For M41T00S
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+i2c_rtc_m41t00s	KEYWORD1
+time_t	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+
+get	KEYWORD2
+set	KEYWORD2
+isStopped	KEYWORD2
+isRunning	KEYWORD2
+isFailed	KEYWORD2
+setCalibration	KEYWORD2
+start	KEYWORD2
+stop	KEYWORD2
+clearFault	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+time	KEYWORD2
+
+sec	KEYWORD2
+min	KEYWORD2
+hour	KEYWORD2
+dow	KEYWORD2
+day	KEYWORD2
+month	KEYWORD2
+year	KEYWORD2
+cal	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+ku8TWISuccess
+ku8TWIDeviceNACK
+ku8TWIDataNACK
+ku8TWIError
