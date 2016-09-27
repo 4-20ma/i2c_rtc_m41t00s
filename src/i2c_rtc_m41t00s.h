@@ -233,5 +233,5 @@ class i2c_rtc_m41t00s
 #endif
 
 /**
-@example examples/M41T00S_example/M41T00S_example.pde
+@example examples/M41T00S_example/M41T00S_example.ino
 */

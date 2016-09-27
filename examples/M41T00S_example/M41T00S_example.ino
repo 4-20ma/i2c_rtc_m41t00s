@@ -1,6 +1,6 @@
 /*
 
-  M41T00S_example.pde - example using i2c_rtc_m41t00s library
+  M41T00S_example.ino - example using i2c_rtc_m41t00s library
   
   This file is part of i2c_rtc_m41t00s.
   
