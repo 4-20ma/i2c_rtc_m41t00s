@@ -55,11 +55,11 @@ Retrieve time from RTC and populate time structure.
 uint8_t i2c_rtc_m41t00s::get()
 {
   uint8_t u8Status;
-  
+
   Wire.beginTransmission(_ku8BaseAddress);
   Wire.write(_ku8Sec);
   u8Status = Wire.endTransmission();
-  
+
   if (u8Status == ku8TWISuccess)
   {
     // request the _ku8Length bytes of data (sec, min, hour, dow, day, month, year, cal)
@@ -69,7 +69,7 @@ uint8_t i2c_rtc_m41t00s::get()
       {
         _rtc_bcd[i] = Wire.read();
       }
-      
+
       time.sec = bcd2dec(_rtc_bcd[_ku8Sec] & ~bit(_ku8Bit_ST));
       time.min = bcd2dec(_rtc_bcd[_ku8Min] & ~bit(_ku8Bit_OF));
       time.hour = bcd2dec(_rtc_bcd[_ku8Hour] &
@@ -81,7 +81,7 @@ uint8_t i2c_rtc_m41t00s::get()
       time.cal = _rtc_bcd[_ku8Calibration];
     }
   }
-  
+
   return u8Status;
 }
 
@@ -105,12 +105,12 @@ uint8_t i2c_rtc_m41t00s::set(time_t *tNewTime)
 
   Wire.beginTransmission(_ku8BaseAddress);
   Wire.write(_ku8Sec);
-  
+
   for (uint8_t i = 0; i < (_ku8Length - 1); i++)
   {
     Wire.write(_rtc_bcd[i]);
   }
-  
+
   return Wire.endTransmission();
 }
 
@@ -171,7 +171,7 @@ Set calibration byte.
 uint8_t i2c_rtc_m41t00s::setCalibration(uint8_t u8Value)
 {
   _rtc_bcd[_ku8Calibration] = u8Value;
-  
+
   return write(_ku8Calibration);
 }
 
@@ -185,7 +185,7 @@ uint8_t i2c_rtc_m41t00s::stop()
 {
   // set the stop bit to stop the rtc
   bitSet(_rtc_bcd[_ku8Sec], _ku8Bit_ST);
-  
+
   return write(_ku8Sec);
 }
 
@@ -198,7 +198,7 @@ Start the clock.
 uint8_t i2c_rtc_m41t00s::start()
 {
   bitClear(_rtc_bcd[_ku8Sec], _ku8Bit_ST);
-  
+
   return write(_ku8Sec);
 }
 
@@ -211,14 +211,14 @@ Clear oscillator fail bit (OF).
 uint8_t i2c_rtc_m41t00s::clearFault()
 {
   uint8_t u8Status = read(_ku8Min);
-  
+
   if (u8Status != ku8TWISuccess)
   {
     return u8Status;
   }
-  
+
   bitClear(_rtc_bcd[_ku8Min], _ku8Bit_OF);
-  
+
   return write(_ku8Min);
 }
 
@@ -257,11 +257,11 @@ Read a single byte from the rtc.
 uint8_t i2c_rtc_m41t00s::read(uint8_t u8Register)
 {
   uint8_t u8Status;
-  
+
   Wire.beginTransmission(_ku8BaseAddress);
   Wire.write(u8Register);
   u8Status = Wire.endTransmission();
-  
+
   if (u8Status == ku8TWISuccess)
   {
     if (Wire.requestFrom((uint8_t)_ku8BaseAddress, (uint8_t)1) == 1)
@@ -273,7 +273,7 @@ uint8_t i2c_rtc_m41t00s::read(uint8_t u8Register)
       return ku8TWIError;
     }
   }
-  
+
   return u8Status;
 }
 
@@ -289,6 +289,6 @@ uint8_t i2c_rtc_m41t00s::write(uint8_t u8Register)
   Wire.beginTransmission(_ku8BaseAddress);
   Wire.write(u8Register);
   Wire.write(_rtc_bcd[u8Register]);
-  
+
   return Wire.endTransmission();
 }
