@@ -58,7 +58,7 @@ uint8_t i2c_rtc_m41t00s::get()
   uint8_t u8Status;
   
   Wire.beginTransmission(_ku8BaseAddress);
-  Wire.send(_ku8Sec);
+  Wire.write(_ku8Sec);
   u8Status = Wire.endTransmission();
   
   if (u8Status == ku8TWISuccess)
@@ -68,7 +68,7 @@ uint8_t i2c_rtc_m41t00s::get()
     {
       for (uint8_t i = 0; i < _ku8Length; i++)
       {
-        _rtc_bcd[i] = Wire.receive();
+        _rtc_bcd[i] = Wire.read();
       }
       
       time.sec = bcd2dec(_rtc_bcd[_ku8Sec] & ~bit(_ku8Bit_ST));
@@ -105,11 +105,11 @@ uint8_t i2c_rtc_m41t00s::set(time_t *tNewTime)
   _rtc_bcd[_ku8Year] = dec2bcd(constrain(tNewTime->year, 0, 99));
 
   Wire.beginTransmission(_ku8BaseAddress);
-  Wire.send(_ku8Sec);
+  Wire.write(_ku8Sec);
   
   for (uint8_t i = 0; i < (_ku8Length - 1); i++)
   {
-    Wire.send(_rtc_bcd[i]);
+    Wire.write(_rtc_bcd[i]);
   }
   
   return Wire.endTransmission();
@@ -260,14 +260,14 @@ uint8_t i2c_rtc_m41t00s::read(uint8_t u8Register)
   uint8_t u8Status;
   
   Wire.beginTransmission(_ku8BaseAddress);
-  Wire.send(u8Register);
+  Wire.write(u8Register);
   u8Status = Wire.endTransmission();
   
   if (u8Status == ku8TWISuccess)
   {
     if (Wire.requestFrom((uint8_t)_ku8BaseAddress, (uint8_t)1) == 1)
     {
-      _rtc_bcd[u8Register] = Wire.receive();
+      _rtc_bcd[u8Register] = Wire.read();
     }
     else
     {
@@ -288,8 +288,8 @@ Write a single byte to the rtc.
 uint8_t i2c_rtc_m41t00s::write(uint8_t u8Register)
 {
   Wire.beginTransmission(_ku8BaseAddress);
-  Wire.send(u8Register);
-  Wire.send(_rtc_bcd[u8Register]);
+  Wire.write(u8Register);
+  Wire.write(_rtc_bcd[u8Register]);
   
   return Wire.endTransmission();
 }
