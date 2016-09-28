@@ -33,7 +33,7 @@ Arduino library for ST M41T00S real-time clock.
 
 /* _____STANDARD INCLUDES____________________________________________________ */
 // include types & constants of Wiring core API
-#include "WProgram.h"
+#include "Arduino.h"
 
 // include twi/i2c library
 #include <Wire.h>
