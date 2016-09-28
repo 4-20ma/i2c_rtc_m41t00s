@@ -3,27 +3,26 @@
 Arduino library for ST M41T00S real-time clock.
 */
 /*
-  
-  i2c_rtc_m41t00s.h Arduino library for ST M41T00S real-time clock
-  
-  This file is part of i2c_rtc_m41t00s.
-  
-  i2c_rtc_m41t00s is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  i2c_rtc_m41t00s is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with i2c_rtc_m41t00s.  If not, see <http://www.gnu.org/licenses/>.
-  
-  Written by Doc Walker (Rx)
-  Copyright © 2009-2012 Doc Walker <4-20ma at wvfans dot net>
-  
+
+  i2c_rtc_m41t00s.h - Arduino library for ST M41T00S real-time clock
+
+  Library:: i2c_rtc_m41t00s
+  Author:: Doc Walker <4-20ma@wvfans.net>
+
+  Copyright:: 2009-2016 Doc Walker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
 */
 
 
@@ -89,35 +88,35 @@ class i2c_rtc_m41t00s
       uint8_t year;  ///< year (00..99)
       uint8_t cal;   ///< calibration byte (0x00..0xFF)
     } time;
-    
+
     /**
     I2C/TWI success.
-    
+
     Transaction was successful.
     */
     static const uint8_t ku8TWISuccess                   = 0;
-    
+
     /**
     I2C/TWI device not present.
-    
+
     Address sent, NACK received.
     */
     static const uint8_t ku8TWIDeviceNACK                = 2;
-    
+
     /**
     I2C/TWI data not received.
-    
+
     Data sent, NACK received.
     */
     static const uint8_t ku8TWIDataNACK                  = 3;
-    
+
     /**
     I2C/TWI other error.
     */
     static const uint8_t ku8TWIError                     = 4;
-    
+
     i2c_rtc_m41t00s();
-    
+
     void    begin();
     uint8_t get();
     uint8_t set(time_t *);
@@ -134,97 +133,97 @@ class i2c_rtc_m41t00s
     I2C base address for the M41T00S real-time clock.
     */
     static const uint8_t _ku8BaseAddress                 = 0x68;
-    
+
     /**
     Seconds register.
     */
     static const uint8_t _ku8Sec                         = 0x00;
-    
+
     /**
     Stop bit within seconds register.
     */
     static const uint8_t _ku8Bit_ST                      = 7;
-    
+
     /**
     Minutes register.
     */
     static const uint8_t _ku8Min                         = 0x01;
-    
+
     /**
     Oscillator fail bit within minutes register.
     */
     static const uint8_t _ku8Bit_OF                      = 7;
-    
+
     /**
     Hour register.
     */
     static const uint8_t _ku8Hour                        = 0x02;
-    
+
     /**
     Century enable bit within hour register.
     */
     static const uint8_t _ku8Bit_CEB                     = 7;
-    
+
     /**
     Century bit within hour register.
     */
     static const uint8_t _ku8Bit_CB                      = 6;
-    
+
     /**
     Day of week register.
     */
     static const uint8_t _ku8DOW                         = 0x03;
-    
+
     /**
     Day of month register.
     */
     static const uint8_t _ku8Day                         = 0x04;
-    
+
     /**
     Month register.
     */
     static const uint8_t _ku8Month                       = 0x05;
-    
+
     /**
     Year register.
     */
     static const uint8_t _ku8Year                        = 0x06;
-    
+
     /**
     Calibration register.
     */
     static const uint8_t _ku8Calibration                 = 0x07;
-    
+
     /**
     Output level bit within calibration register.
     */
     static const uint8_t _ku8Bit_OUT                     = 7;
-    
+
     /**
     Frequency test bit within calibration register.
     */
     static const uint8_t _ku8Bit_FT                      = 6;
-    
+
     /**
     Sign bit bit within calibration register.
     */
     static const uint8_t _ku8Bit_S                       = 5;
-    
+
     /**
     Calibration mask.
     */
     static const uint8_t _ku8Mask                        = 0x1F;
-    
+
     /**
     Number of bytes of clock data.
     */
     static const uint8_t _ku8Length                      = 8;
-    
+
     uint8_t bcd2dec(uint8_t);
     uint8_t dec2bcd(uint8_t);
     uint8_t read(uint8_t);
     uint8_t write(uint8_t);
-    
+
     /**
     Clock data in BCD format.
     */

@@ -1,25 +1,24 @@
 /*
 
   M41T00S_example.ino - example using i2c_rtc_m41t00s library
-  
-  This file is part of i2c_rtc_m41t00s.
-  
-  i2c_rtc_m41t00s is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  i2c_rtc_m41t00s is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with i2c_rtc_m41t00s.  If not, see <http://www.gnu.org/licenses/>.
-  
-  Written by Doc Walker (Rx)
-  Copyright © 2009-2012 Doc Walker <4-20ma at wvfans dot net>
-  
+
+  Library:: i2c_rtc_m41t00s
+  Author:: Doc Walker <4-20ma@wvfans.net>
+
+  Copyright:: 2009-2016 Doc Walker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
 */
 
 
@@ -38,7 +37,7 @@ void setup()
 {
   // initialize serial interface
   Serial.begin(19200);
-  
+
   // initialize i2c interface
   rtc.begin();
 }
@@ -47,7 +46,7 @@ void setup()
 void loop()
 {
   uint8_t k, u8Status;
-  
+
   if (rtc.isStopped())
   {
     Serial.println("RTC is stopped.");
@@ -65,7 +64,7 @@ void loop()
     }
     Serial.print("Currently: ");
   }
-  
+
   printTime();
   Serial.println("");
   Serial.println("S - [S]tart RTC");
@@ -76,13 +75,13 @@ void loop()
   Serial.println("D - [D]isplay current time");
   Serial.println("");
   Serial.println("Choose a menu item:");
-  
+
   while (!Serial.available())
   {
   }
-  
+
   Serial.println("----------------------------------------");
-  
+
   k = Serial.read();
   switch(k)
   {
@@ -96,7 +95,7 @@ void loop()
         Serial.println(".");
       }
       break;
-      
+
     case 'P':
     case 'p':
       u8Status = rtc.stop();
@@ -107,7 +106,7 @@ void loop()
         Serial.println(".");
       }
       break;
-      
+
     case 'F':
     case 'f':
       u8Status = rtc.clearFault();
@@ -118,23 +117,23 @@ void loop()
         Serial.println(".");
       }
       break;
-      
+
     case 'T':
     case 't':
       setTime();
       break;
-      
+
     case 'C':
     case 'c':
       setCal();
       break;
-      
+
     case 'D':
     case 'd':
     default:
       break;
   }
-  
+
   Serial.flush();
 }
 
@@ -143,7 +142,7 @@ void loop()
 void printTime()
 {
   uint8_t u8Status = rtc.get();
-  
+
   if (!u8Status)
   {
     sprintf(dateString, "%4u-%02u-%02u %02u:%02u:%02u (DOW: %u, CAL: 0x%02x).",
@@ -164,48 +163,48 @@ void setTime()
 {
   uint8_t x, y, u8Status;
   i2c_rtc_m41t00s::time_t newtime;
-  
+
   Serial.println("Enter new time in format (dow is Sun, Mon, ... Sat):");
   Serial.println("yyyy-mm-dd hh:mm:ss dow");
   while (Serial.available() < 22)
   {
   }
-  
+
   x = Serial.read(); // discard digit
   x = Serial.read(); // discard digit
   x = Serial.read(); // year: tens digit
   y = Serial.read(); // year: ones digit
   newtime.year = 10 * (x - '0') + (y - '0');
-  
+
   x = Serial.read(); // discard spacer
   x = Serial.read(); // month: tens digit
   y = Serial.read(); // month: ones digit
   newtime.month = 10 * (x - '0') + (y - '0');
-  
+
   x = Serial.read(); // discard spacer
   x = Serial.read(); // day: tens digit
   y = Serial.read(); // day: ones digit
   newtime.day = 10 * (x - '0') + (y - '0');
-  
+
   x = Serial.read(); // discard spacer
   x = Serial.read(); // hour: tens digit
   y = Serial.read(); // hour: ones digit
   newtime.hour = 10 * (x - '0') + (y - '0');
-  
+
   x = Serial.read(); // discard spacer
   x = Serial.read(); // min: tens digit
   y = Serial.read(); // min: ones digit
   newtime.min = 10 * (x - '0') + (y - '0');
-  
+
   x = Serial.read(); // discard spacer
   x = Serial.read(); // sec: tens digit
   y = Serial.read(); // sec: ones digit
   newtime.sec = 10 * (x - '0') + (y - '0');
-  
+
   x = Serial.read(); // discard spacer
   x = Serial.read(); // dow: 1st character
   y = Serial.read(); // dow: 2nd character
-  
+
   switch(x)
   {
     case 'S':
@@ -214,44 +213,44 @@ void setTime()
       {
         newtime.dow = 1;
       }
-      
+
       if (y == 'A' or y == 'a')
       {
         newtime.dow = 7;
       }
       break;
-      
+
     case 'M':
     case 'm':
       newtime.dow = 2;
       break;
-      
+
     case 'T':
     case 't':
       if (y == 'U' or y == 'u')
       {
         newtime.dow = 3;
       }
-      
+
       if (y == 'H' or y == 'h')
       {
         newtime.dow = 5;
       }
       break;
-      
+
     case 'W':
     case 'w':
       newtime.dow = 4;
       break;
-      
+
     case 'F':
     case 'f':
       newtime.dow = 6;
       break;
   }
-  
+
   Serial.flush();
-  
+
   u8Status = rtc.set(&newtime);
   if (u8Status)
   {
@@ -265,12 +264,12 @@ void setTime()
 void setCal()
 {
   uint8_t x, y, u8Status;
-  
+
   Serial.println("Enter new calibration value in hex (skip 0x):");
   while (Serial.available() < 2)
   {
   }
-  
+
   x = Serial.read(); // cal: upper nibble
   if (BOUND(x, '0', '9'))
   {
@@ -288,7 +287,7 @@ void setCal()
   {
     x = 0;
   }
-  
+
   y = Serial.read(); // cal: lower nibble
   if (BOUND(y, '0', '9'))
   {
@@ -306,7 +305,7 @@ void setCal()
   {
     y = 0;
   }
-  
+
   u8Status = rtc.setCalibration((x << 4) + y);
   if (u8Status)
   {
