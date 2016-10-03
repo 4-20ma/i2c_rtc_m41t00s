@@ -48,7 +48,7 @@ Macro to check if a value is within bounds (Min <= Value <= Max ?)
 
 /* _____CLASS DEFINITIONS____________________________________________________ */
 /**
-Arduino class library for ST M41T00S real-time clock.
+Arduino library for ST M41T00S real-time clock.
 
 The M41T00S Serial Access TIMEKEEPER SRAM is a low power serial RTC 
 with a builtin 32.768 kHz oscillator (external crystal controlled). 
