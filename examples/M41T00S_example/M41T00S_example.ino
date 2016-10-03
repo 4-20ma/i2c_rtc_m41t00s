@@ -22,7 +22,6 @@
 */
 
 
-#include <Wire.h>
 #include <i2c_rtc_m41t00s.h>
 
 
